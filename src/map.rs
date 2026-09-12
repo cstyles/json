@@ -566,6 +566,14 @@ impl Extend<(String, Value)> for Map<String, Value> {
     }
 }
 
+impl<const N: usize> From<[(String, Value); N]> for Map<String, Value> {
+    fn from(array: [(String, Value); N]) -> Self {
+        Map {
+            map: From::from(array),
+        }
+    }
+}
+
 macro_rules! delegate_iterator {
     (($name:ident $($generics:tt)*) => $item:ty) => {
         impl $($generics)* Iterator for $name $($generics)* {
