@@ -566,10 +566,10 @@ impl Extend<(String, Value)> for Map<String, Value> {
     }
 }
 
-impl<const N: usize> From<[(String, Value); N]> for Map<String, Value> {
-    fn from(array: [(String, Value); N]) -> Self {
+impl<T: Into<Value>, const N: usize> From<[(String, T); N]> for Map<String, Value> {
+    fn from(array: [(String, T); N]) -> Self {
         Map {
-            map: From::from(array),
+            map: array.into_iter().map(|(k, v)| (k, v.into())).collect(),
         }
     }
 }
